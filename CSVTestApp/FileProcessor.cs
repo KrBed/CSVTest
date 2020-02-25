@@ -1,29 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Csv
 {
     public class FileProcessor
     {
-
         public static void FileSummary(List<FileData> fileDatas)
         {
-            var data = fileDatas;
-            var quantitySummary = data.Sum(x => x.Quantity);
+            var quantitySummary = fileDatas.Sum(x => x.Quantity);
+
             Console.WriteLine(quantitySummary);
-            var categorySummary = GetCategorySummary(data);
+
+            var categorySummary = GetCategorySummary(fileDatas);
+
             foreach (var category in categorySummary)
             {
                 Console.WriteLine($@"{category.Key} : {category.Value}");
             }
-            var yearlySummary = GetYearlySummary(data);
+
+            var yearlySummary = GetYearlySummary(fileDatas);
+
             foreach (var year in yearlySummary)
             {
                 Console.WriteLine($@"{year.Key} : {year.Value}");
             }
+
         }
 
         public static Dictionary<string, int> GetCategorySummary(List<FileData> fileDatas)
@@ -32,6 +34,7 @@ namespace Csv
             foreach (var data in fileDatas)
             {
                 var keys = data.Category.Keys.ToList();
+
                 if (categorySummary.ContainsKey(keys[0]))
                 {
                     int value = 0;
@@ -50,12 +53,12 @@ namespace Csv
             return categorySummary;
         }
 
-        public static Dictionary<DateTime, int> GetYearlySummary(List<FileData> fileDatas)
+        public static Dictionary<int, int> GetYearlySummary(List<FileData> fileDatas)
         {
-            var yearlySummary = new Dictionary<DateTime, int>();
+            var yearlySummary = new Dictionary<int, int>();
             foreach (var data in fileDatas)
             {
-                var key = data.Tm.Date;
+                var key = data.Tm.Date.Year;
                 if (yearlySummary.ContainsKey(key))
                 {
                     int value = 0;
