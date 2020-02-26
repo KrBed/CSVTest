@@ -17,19 +17,20 @@ namespace CsvTestApp
                 return;
             }
 
+            var categorySummary = GetCategorySummary(fileDatas);
+            var yearlySummary = GetYearlySummary(fileDatas);
+
             Console.WriteLine($@"Summary Quantity : {quantitySummary}");
             Console.WriteLine();
-            var categorySummary = GetCategorySummary(fileDatas);
-
-            Console.WriteLine("Summary by Category:");
+            Console.WriteLine("Summary by Category : ");
             foreach (var category in categorySummary)
             {
                 Console.WriteLine($@"{category.Key} : {category.Value}");
             }
             Console.WriteLine();
-            var yearlySummary = GetYearlySummary(fileDatas);
+          
 
-            Console.WriteLine("Summary by Year :");
+            Console.WriteLine("Summary by Year : ");
             foreach (var year in yearlySummary)
             {
                 Console.WriteLine($@"{year.Key} : {year.Value}");

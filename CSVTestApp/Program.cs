@@ -26,7 +26,7 @@ namespace CsvTestApp
 
             parrarelThread.Start();
 
-            Timer _timer = new Timer(Summary, null, TimeSpan.Zero, TimeSpan.FromSeconds(5));
+            Timer _timer = new Timer(Summary, null, TimeSpan.Zero, TimeSpan.FromSeconds(10));
 
             parrarelThread.Join();
 
