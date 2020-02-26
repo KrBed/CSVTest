@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Csv
+namespace CsvTestApp
 {
     class Program
     {
@@ -13,25 +12,23 @@ namespace Csv
 
         public static void Main(string[] args)
         {
+            if (args.Length <2 || args.Length > 2)
+            {
+                Console.WriteLine("Pass path to folder and thread number after space");
+                Console.ReadKey();
+                Environment.Exit(0);
+            }
 
-            string path = "E:/TEMP_CSV_1";
-
-            var csvFiles = Directory.GetFiles(path);
-            var threadNumber = 3;
-
-
-
-            Thread parrarelThread = new Thread(new ThreadStart(ParrarelThread));
+            Thread parrarelThread = new Thread(() =>
+            {
+                ParallelThread(args[0],Int32.Parse(args[1]));
+            });
 
             parrarelThread.Start();
 
-            Timer _timer = new Timer(Summary, null, TimeSpan.Zero, TimeSpan.FromSeconds(3));
+            Timer _timer = new Timer(Summary, null, TimeSpan.Zero, TimeSpan.FromSeconds(5));
 
             parrarelThread.Join();
-
-            Console.WriteLine("Counter");
-            Console.WriteLine(_fileDatas.Count);
-
 
             if (!parrarelThread.IsAlive)
             {
@@ -39,20 +36,17 @@ namespace Csv
             }
 
             FileProcessor.FileSummary(_fileDatas);
+            FileProcessor.CreateCsvFile(_fileDatas);
             Console.ReadKey();
-
         }
-        private static void ParrarelThread()
+
+        private static void ParallelThread(string folderPath, int numberOfThreads)
         {
-            string path = "E:/TEMP_CSV_1";
-
-            var threadNumber = 5;
-
-            var csvFiles = Directory.GetFiles(path);
+            var csvFiles = Directory.GetFiles(folderPath);
 
             Parallel.ForEach(
                 csvFiles,
-                new ParallelOptions { MaxDegreeOfParallelism = threadNumber },
+                new ParallelOptions { MaxDegreeOfParallelism = numberOfThreads },
                 file =>
                 {
                     using (StreamReader reader = new StreamReader(file))
@@ -81,7 +75,6 @@ namespace Csv
 
                     }
                 }
-
             );
         }
 

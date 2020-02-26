@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Csv
+namespace CsvTestApp
 {
     public class FileData
     {
@@ -13,6 +13,6 @@ namespace Csv
         }
         public DateTime Tm { get; set; }
         public Dictionary<string, int> Category { get; set; }
-        public int Quantity { get; set; }
+        public double Quantity { get; set; }
     }
 }
